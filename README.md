@@ -8,6 +8,13 @@ the catalogue, tracks credit units and saves or loads the course list from
 a text file. The seeded 200 Level course list adapts to whichever level a
 student registers with (COS 201 becomes COS 301 for a 300 Level student).
 
+## Screenshot
+
+![Student Course Management System dashboard](screenshots/program_running.png)
+
+The program running, signed in to the Student Course Management System
+dashboard.
+
 ## Requirements
 
 - JDK 8 or newer (tested on JDK 26)
@@ -59,7 +66,7 @@ java -cp out test.ManagerSelfTest
 | `data/enrollments.txt` | Your saved enrolments, written on exit |
 | `data/students.txt` | Registered student accounts |
 
-Delete `data/` to start fresh - the program recreates it on the next run.
+Delete `data/` to start fresh; the program recreates it on the next run.
 
 ## Project layout
 
