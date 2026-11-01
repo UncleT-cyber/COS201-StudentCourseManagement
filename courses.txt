@@ -1,0 +1,12 @@
+# Student Course Manager - master course catalogue
+# format: templateId|baseCode|baseLevel|title|units|category|prerequisite
+MTH_201|MTH 201|200|Mathematical Methods I|2|Core|
+ENT_211|ENT 211|200|Entrepreneurship and Innovation|2|Core|
+PROGRAMMING_1|COS 201|200|Computer Programming I|3|Core|
+CYB_201|CYB 201|200|Introduction to Cybersecurity and Strategy|2|Core|
+SEN_201|SEN 201|200|Introduction to Software Engineering|2|Core|
+CYB_203|CYB 203|200|Cybercrime, Law and Countermeasures|2|Core|CYB_201
+MTH_205|MTH 205|200|Linear Algebra I|2|Core|MTH_201
+SIWES_1|CYB 299|200|SIWES I|3|Core|
+ZERO_TRUST|MIVA-CYB 207|200|Zero Trust Networking|2|Elective|CYB_201
+COS_203|COS 203|200|Discrete Structures|2|Core|MTH_201

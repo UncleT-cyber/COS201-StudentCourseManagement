@@ -1,0 +1,2 @@
+# registered students: id|name|program|level
+30166082|ABAH ANTHONY|DEPARTMENT OF CYBER SECURITY|200
