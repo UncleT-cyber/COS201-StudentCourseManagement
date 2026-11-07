@@ -44,10 +44,10 @@ public class ActivityLogPanel extends JPanel {
         list.setVisibleRowCount(6);
         list.setBackground(Color.WHITE);
         list.setSelectionBackground(Color.WHITE);
-        list.setFixedCellHeight(26);
+        list.setFixedCellHeight(30);
 
         JScrollPane scroll = new JScrollPane(list);
-        scroll.setBorder(null);
+        Theme.styleScrollPane(scroll);
         scroll.getViewport().setBackground(Color.WHITE);
         add(scroll, BorderLayout.CENTER);
 
@@ -75,10 +75,10 @@ public class ActivityLogPanel extends JPanel {
         private final javax.swing.JLabel message =
                 Theme.label("", 12, false, Theme.TEXT);
         private final JPanel row = new JPanel(new FlowLayout(
-                FlowLayout.LEFT, 6, 2));
+                FlowLayout.LEFT, 9, 4));
 
         EntryRenderer() {
-            time.setPreferredSize(new Dimension(62, 16));
+            time.setPreferredSize(new Dimension(66, 16));
             time.setFont(new Font("Monospaced", Font.PLAIN, 11));
             row.setOpaque(true);
             row.add(time);
@@ -102,7 +102,9 @@ public class ActivityLogPanel extends JPanel {
                 badge.setColors(Theme.BLUE, Theme.BLUE_LIGHT);
             }
 
-            row.setBackground(isSelected ? Theme.BLUE_LIGHT : Color.WHITE);
+            row.setBackground(isSelected ? Theme.BLUE_LIGHT
+                    : (index % 2 == 0 ? Color.WHITE
+                    : new Color(249, 251, 254)));
             return row;
         }
     }

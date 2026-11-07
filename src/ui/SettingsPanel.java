@@ -39,7 +39,7 @@ public class SettingsPanel extends JPanel {
 
         setLayout(new BorderLayout(0, 14));
         setOpaque(false);
-        setBorder(new javax.swing.border.EmptyBorder(18, 18, 18, 18));
+        setBorder(new javax.swing.border.EmptyBorder(20, 20, 20, 20));
 
         JPanel top = new JPanel(new BorderLayout(0, 2));
         top.setOpaque(false);
@@ -59,7 +59,7 @@ public class SettingsPanel extends JPanel {
         centre.add(Theme.gap(14));
 
         JScrollPane scroll = new JScrollPane(centre);
-        scroll.setBorder(null);
+        Theme.styleScrollPane(scroll);
         scroll.setHorizontalScrollBarPolicy(
                 javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.getViewport().setBackground(Theme.BG);

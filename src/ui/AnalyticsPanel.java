@@ -51,7 +51,7 @@ public class AnalyticsPanel extends JPanel {
 
         setLayout(new BorderLayout(14, 14));
         setOpaque(false);
-        setBorder(new javax.swing.border.EmptyBorder(18, 18, 18, 18));
+        setBorder(new javax.swing.border.EmptyBorder(20, 20, 20, 20));
 
         JPanel top = new JPanel(new BorderLayout(0, 2));
         top.setOpaque(false);
@@ -68,7 +68,7 @@ public class AnalyticsPanel extends JPanel {
                 "Enrolled units grouped by category"),
                 BorderLayout.NORTH);
         JPanel chartBody = new JPanel(new FlowLayout(FlowLayout.CENTER,
-                24, 8));
+                16, 8));
         chartBody.setOpaque(false);
         chartBody.add(donut);
         legendBox.setOpaque(false);
@@ -90,7 +90,7 @@ public class AnalyticsPanel extends JPanel {
         loadBody.add(creditsValue);
         loadBody.add(Theme.gap(8));
         creditBar.setStringPainted(false);
-        creditBar.setPreferredSize(new Dimension(240, 16));
+        creditBar.setPreferredSize(new Dimension(220, 12));
         creditBar.setForeground(Theme.BLUE);
         creditBar.setBackground(Theme.BLUE_LIGHT);
         loadBody.add(creditBar);
@@ -145,6 +145,7 @@ public class AnalyticsPanel extends JPanel {
         int total = manager.totalUnits();
         creditsValue.setText(total + " / " + CourseManager.MAX_UNITS);
         creditBar.setValue(total);
+        creditBar.setForeground(total >= 20 ? Theme.ORANGE : Theme.BLUE);
         remainingValue.setText(manager.remainingUnits()
                 + " units remaining before the limit");
 

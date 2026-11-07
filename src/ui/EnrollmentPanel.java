@@ -68,7 +68,7 @@ public class EnrollmentPanel extends JPanel {
 
         setLayout(new BorderLayout(14, 14));
         setOpaque(false);
-        setBorder(new javax.swing.border.EmptyBorder(18, 18, 18, 18));
+        setBorder(new javax.swing.border.EmptyBorder(20, 20, 20, 20));
 
         add(buildTop(), BorderLayout.NORTH);
         add(buildCentre(), BorderLayout.CENTER);
@@ -156,15 +156,15 @@ public class EnrollmentPanel extends JPanel {
         box.add(Theme.label("Available Courses", 13, true, Theme.TEXT),
                 BorderLayout.NORTH);
         JScrollPane scroll = new JScrollPane(catalogueTable);
-        scroll.setBorder(javax.swing.BorderFactory.createLineBorder(
-                Theme.BORDER));
+        Theme.styleScrollPane(scroll);
+        scroll.getViewport().setBackground(java.awt.Color.WHITE);
         box.add(scroll, BorderLayout.CENTER);
         return box;
     }
 
     private JPanel buildSide() {
         JPanel side = Theme.card(new BorderLayout(0, 10));
-        side.setPreferredSize(new Dimension(300, 100));
+        side.setPreferredSize(new Dimension(286, 100));
         JPanel head = new JPanel(new BorderLayout(0, 2));
         head.setOpaque(false);
         head.add(Theme.label("Add a Course", 15, true, Theme.NAVY),

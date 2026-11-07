@@ -57,7 +57,7 @@ public class CoursesPanel extends JPanel {
 
         setLayout(new BorderLayout(0, 12));
         setOpaque(false);
-        setBorder(new javax.swing.border.EmptyBorder(18, 18, 18, 18));
+        setBorder(new javax.swing.border.EmptyBorder(20, 20, 20, 20));
 
         JPanel top = new JPanel(new BorderLayout(0, 2));
         top.setOpaque(false);
@@ -70,8 +70,8 @@ public class CoursesPanel extends JPanel {
         add(top, BorderLayout.NORTH);
 
         JScrollPane scroll = new JScrollPane(table);
-        scroll.setBorder(javax.swing.BorderFactory.createLineBorder(
-                Theme.BORDER));
+        Theme.styleScrollPane(scroll);
+        scroll.getViewport().setBackground(java.awt.Color.WHITE);
         add(scroll, BorderLayout.CENTER);
 
         manager.addChangeListener(this::refresh);

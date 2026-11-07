@@ -21,6 +21,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.LayoutManager;
 import java.awt.RenderingHints;
+import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -30,6 +31,9 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
+import javax.swing.plaf.basic.BasicScrollBarUI;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
@@ -50,9 +54,9 @@ public class Theme {
     public static final Color NAVY = new Color(15, 42, 74);
 
     // surfaces
-    public static final Color BG = new Color(244, 247, 251);
+    public static final Color BG = new Color(246, 248, 252);
     public static final Color CARD = Color.WHITE;
-    public static final Color BORDER = new Color(229, 231, 235);
+    public static final Color BORDER = new Color(225, 232, 241);
     public static final Color SIDEBAR = Color.WHITE;
 
     // text
@@ -68,7 +72,7 @@ public class Theme {
     public static final Color RED_BG = new Color(254, 226, 226);
 
     // elevation
-    public static final Color SHADOW = new Color(0, 0, 0, 35);
+    public static final Color SHADOW = new Color(30, 61, 99, 16);
 
     // chart palette
     public static final Color[] CHART = {
@@ -102,16 +106,83 @@ public class Theme {
         return label(text, size, false, MUTED);
     }
 
+    /** Consistent lightweight scrollbars for all Swing workspaces. */
+    public static void styleScrollPane(JScrollPane pane) {
+        pane.setBorder(null);
+        pane.getViewport().setBackground(BG);
+        pane.getVerticalScrollBar().setUnitIncrement(18);
+        styleScrollBar(pane.getVerticalScrollBar());
+        styleScrollBar(pane.getHorizontalScrollBar());
+    }
+
+    private static void styleScrollBar(JScrollBar bar) {
+        bar.setUI(new BasicScrollBarUI() {
+            @Override
+            protected void configureScrollBarColors() {
+                thumbColor = new Color(173, 187, 205);
+                trackColor = BG;
+            }
+
+            @Override
+            protected void paintTrack(Graphics g, JComponent c, Rectangle bounds) {
+                // Keep the track visually quiet.
+            }
+
+            @Override
+            protected void paintThumb(Graphics g, JComponent c, Rectangle bounds) {
+                if (bounds.isEmpty() || !scrollbar.isEnabled()) {
+                    return;
+                }
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                g2.setColor(isThumbRollover() ? new Color(126, 147, 175)
+                        : new Color(173, 187, 205));
+                int inset = 3;
+                if (scrollbar.getOrientation() == JScrollBar.VERTICAL) {
+                    g2.fillRoundRect(bounds.x + inset, bounds.y + 2,
+                            Math.max(2, bounds.width - inset * 2),
+                            Math.max(2, bounds.height - 4), 8, 8);
+                } else {
+                    g2.fillRoundRect(bounds.x + 2, bounds.y + inset,
+                            Math.max(2, bounds.width - 4),
+                            Math.max(2, bounds.height - inset * 2), 8, 8);
+                }
+                g2.dispose();
+            }
+
+            @Override
+            protected JButton createDecreaseButton(int orientation) {
+                return invisibleArrow();
+            }
+
+            @Override
+            protected JButton createIncreaseButton(int orientation) {
+                return invisibleArrow();
+            }
+
+            private JButton invisibleArrow() {
+                JButton button = new JButton();
+                button.setPreferredSize(new Dimension(0, 0));
+                button.setMinimumSize(new Dimension(0, 0));
+                button.setMaximumSize(new Dimension(0, 0));
+                return button;
+            }
+        });
+        bar.setPreferredSize(new Dimension(11, 11));
+        bar.setOpaque(false);
+    }
+
     /** Rounded white card with a light border and subtle shadow. */
     public static JPanel card() {
         return card(new BorderLayout(0, 10));
     }
 
     public static JPanel card(LayoutManager layout) {
-        RoundedPanel panel = new RoundedPanel(14, true);
+        RoundedPanel panel = new RoundedPanel(18, true);
         panel.setBackground(CARD);
         panel.setLayout(layout);
-        panel.setBorder(new EmptyBorder(16, 16, 16, 16));
+        panel.setBorder(new EmptyBorder(18, 18, 18, 18));
         return panel;
     }
 
@@ -136,8 +207,8 @@ public class Theme {
         field.setBackground(Color.WHITE);
         field.setCaretColor(TEXT);
         field.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(BORDER),
-                new EmptyBorder(8, 10, 8, 10)));
+                BorderFactory.createLineBorder(new Color(202, 215, 232)),
+                new EmptyBorder(10, 12, 10, 12)));
         field.setText("");
         field.putClientProperty("placeholder", placeholder);
     }
@@ -145,11 +216,6 @@ public class Theme {
     /** Blue call to action button. */
     public static RoundedButton primaryButton(String text) {
         return new RoundedButton(text, BLUE, Color.WHITE, true);
-    }
-
-    /** Teal button used for Create Account. */
-    public static RoundedButton tealButton(String text) {
-        return new RoundedButton(text, TEAL, Color.WHITE, true);
     }
 
     /** White button with a blue outline. */
@@ -400,17 +466,17 @@ public class Theme {
                     // bordered box with chevron pointing left:
                     // sidebar is open, click to collapse
                     g2.drawRoundRect(2, 1, 12, 14, 3, 3);
-                    g2.drawLine(8, 4, 8, 16);
-                    g2.drawLine(8, 4, 12, 8);
-                    g2.drawLine(8, 16, 12, 8);
+                    g2.drawLine(7, 2, 7, 14);
+                    g2.drawLine(11, 6, 9, 8);
+                    g2.drawLine(9, 8, 11, 10);
                     break;
                 case EXPAND:
                     // bordered box with chevron pointing right:
                     // sidebar is collapsed, click to expand
                     g2.drawRoundRect(2, 1, 12, 14, 3, 3);
-                    g2.drawLine(8, 4, 8, 16);
-                    g2.drawLine(8, 4, 4, 8);
-                    g2.drawLine(8, 16, 4, 8);
+                    g2.drawLine(7, 2, 7, 14);
+                    g2.drawLine(10, 6, 12, 8);
+                    g2.drawLine(12, 8, 10, 10);
                     break;
                 case LOGOUT:
                 default:
@@ -439,15 +505,11 @@ public class Theme {
 
         public NavButton(String text, NavKind kind) {
             super(text, new NavIcon(kind));
-            if (kind == NavKind.COLLAPSE) {
-                // plain chevron and label, no icon box
-                this.label = "\u00AB Collapse";
-                setText("\u00AB Collapse");
-                setIcon(null);
-            } else if (kind == NavKind.EXPAND) {
-                this.label = "Expand";
-                setText("Expand");
-                setIcon(null);
+            if (kind == NavKind.COLLAPSE || kind == NavKind.EXPAND) {
+                this.label = kind == NavKind.COLLAPSE
+                        ? "Collapse sidebar" : "Expand sidebar";
+                setText("");
+                setIcon(new NavIcon(kind));
             } else {
                 this.label = text;
                 setIcon(new NavIcon(kind));
@@ -478,12 +540,9 @@ public class Theme {
         /** Changes the painted icon, used to flip between the
          *  collapse and expand arrows when the sidebar toggles. */
         public void setKind(NavKind kind) {
-            if (kind == NavKind.COLLAPSE) {
-                setIcon(null);
-                setText("\u00AB Collapse");
-            } else if (kind == NavKind.EXPAND) {
-                setIcon(null);
-                setText("\u00BB");
+            if (kind == NavKind.COLLAPSE || kind == NavKind.EXPAND) {
+                setIcon(new NavIcon(kind));
+                setText("");
             } else {
                 setIcon(new NavIcon(kind));
             }

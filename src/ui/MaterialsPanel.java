@@ -49,7 +49,7 @@ public class MaterialsPanel extends JPanel {
 
         setLayout(new BorderLayout());
         setOpaque(false);
-        setBorder(new javax.swing.border.EmptyBorder(18, 18, 18, 18));
+        setBorder(new javax.swing.border.EmptyBorder(20, 20, 20, 20));
 
         JPanel top = new JPanel(new BorderLayout(0, 2));
         top.setOpaque(false);
@@ -82,7 +82,7 @@ public class MaterialsPanel extends JPanel {
         listBox.setOpaque(false);
         listBox.setLayout(new BoxLayout(listBox, BoxLayout.Y_AXIS));
         JScrollPane scroll = new JScrollPane(listBox);
-        scroll.setBorder(null);
+        Theme.styleScrollPane(scroll);
         scroll.setHorizontalScrollBarPolicy(
                 javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.getViewport().setBackground(Theme.BG);

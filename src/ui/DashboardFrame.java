@@ -66,7 +66,7 @@ public class DashboardFrame extends JFrame {
 
     // sidebar state (expanded shows labels, collapsed is an
     // icon rail like VS Code)
-    private static final int SIDEBAR_WIDE = 210;
+    private static final int SIDEBAR_WIDE = 220;
     private static final int SIDEBAR_NARROW = 76;
     private boolean sidebarExpanded = true;
     private JPanel sidebar;
@@ -259,8 +259,8 @@ public class DashboardFrame extends JFrame {
         menuButton.setToolTipText("Collapse sidebar");
         menuButton.setAlignmentX(LEFT_ALIGNMENT);
         menuButton.setHorizontalAlignment(SwingConstants.LEFT);
-        menuButton.setPreferredSize(new Dimension(120, 38));
-        menuButton.setMaximumSize(new Dimension(120, 38));
+        menuButton.setPreferredSize(new Dimension(42, 38));
+        menuButton.setMaximumSize(new Dimension(42, 38));
         menuButton.addActionListener(e -> toggleSidebar());
         JPanel toggleRow = new JPanel(new BorderLayout());
         toggleRow.setOpaque(false);
@@ -321,21 +321,11 @@ public class DashboardFrame extends JFrame {
                 : Theme.NavKind.EXPAND);
         menuButton.setToolTipText(sidebarExpanded ? "Collapse sidebar"
                 : "Expand sidebar");
-        if (sidebarExpanded) {
-            menuButton.setText("\u00AB Collapse");
-            menuButton.setFont(Theme.font(13));
-            menuButton.setHorizontalAlignment(SwingConstants.LEFT);
-            menuButton.setPreferredSize(new Dimension(120, 38));
-            menuButton.setMaximumSize(new Dimension(120, 38));
-        } else {
-            // collapsed: one clear chevron, sized up so it is
-            // easy to hit and read on small screens
-            menuButton.setText("\u00BB");
-            menuButton.setFont(Theme.font(17, java.awt.Font.BOLD));
-            menuButton.setHorizontalAlignment(SwingConstants.CENTER);
-            menuButton.setPreferredSize(new Dimension(54, 38));
-            menuButton.setMaximumSize(new Dimension(54, 38));
-        }
+        // Keep a recognizable sidebar icon in both states.
+        menuButton.setText("");
+        menuButton.setHorizontalAlignment(SwingConstants.CENTER);
+        menuButton.setPreferredSize(new Dimension(42, 38));
+        menuButton.setMaximumSize(new Dimension(42, 38));
         for (Theme.NavButton button : navButtons.values()) {
             button.setCollapsed(!sidebarExpanded);
         }
@@ -385,7 +375,7 @@ public class DashboardFrame extends JFrame {
         } else {
             javax.swing.JScrollPane scroll =
                     new javax.swing.JScrollPane(panel);
-            scroll.setBorder(null);
+            Theme.styleScrollPane(scroll);
             scroll.setHorizontalScrollBarPolicy(
                     javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
             scroll.getViewport().setBackground(Theme.BG);

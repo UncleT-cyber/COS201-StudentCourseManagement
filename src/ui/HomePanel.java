@@ -119,6 +119,21 @@ public class HomePanel extends JPanel {
         // Drop pill stays visible on every supported screen size
         enrollTable.setAutoResizeMode(
                 JTable.AUTO_RESIZE_SUBSEQUENT_COLUMNS);
+        enrollTable.setToolTipText("Hover over a course title to read it in full");
+        enrollTable.addMouseMotionListener(new MouseAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                int row = enrollTable.rowAtPoint(e.getPoint());
+                int col = enrollTable.columnAtPoint(e.getPoint());
+                if (row >= 0 && col == 1) {
+                    Object title = enrollTable.getValueAt(row, col);
+                    enrollTable.setToolTipText(title == null ? null
+                            : title.toString());
+                } else {
+                    enrollTable.setToolTipText(null);
+                }
+            }
+        });
         enrollTable.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -167,8 +182,8 @@ public class HomePanel extends JPanel {
 
         content.setOpaque(false);
         content.setLayout(new BoxLayout(content, BoxLayout.Y_AXIS));
-        content.setBorder(new javax.swing.border.EmptyBorder(18, 18, 18,
-                18));
+        content.setBorder(new javax.swing.border.EmptyBorder(20, 20, 20,
+                20));
 
         formCard = createFormCard();
         enrolmentsCard = createEnrolmentsCard();
@@ -188,11 +203,10 @@ public class HomePanel extends JPanel {
         });
 
         JScrollPane scroll = new JScrollPane(content);
-        scroll.setBorder(null);
+        Theme.styleScrollPane(scroll);
         scroll.setHorizontalScrollBarPolicy(
                 javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         scroll.getViewport().setBackground(Theme.BG);
-        scroll.getVerticalScrollBar().setUnitIncrement(16);
         add(scroll, BorderLayout.CENTER);
 
         applyLayout();
@@ -219,6 +233,8 @@ public class HomePanel extends JPanel {
      * to the smallest supported window.
      */
     private void applyLayout() {
+        // Use the actual workspace width, excluding the sidebar and
+        // the card margins, rather than the outer frame width.
         int width = getWidth();
         LayoutMode mode;
         if (width >= 1080) {
@@ -357,7 +373,12 @@ public class HomePanel extends JPanel {
     private JPanel enrolmentsTableView() {
         JPanel box = new JPanel(new BorderLayout());
         box.setOpaque(false);
-        box.add(new JScrollPane(enrollTable), BorderLayout.CENTER);
+        JScrollPane tableScroll = new JScrollPane(enrollTable);
+        Theme.styleScrollPane(tableScroll);
+        tableScroll.setHorizontalScrollBarPolicy(
+                javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        tableScroll.getViewport().setBackground(Color.WHITE);
+        box.add(tableScroll, BorderLayout.CENTER);
         return box;
     }
 
@@ -430,9 +451,9 @@ public class HomePanel extends JPanel {
     }
 
     private JPanel createProfileCard() {
-        JPanel card = Theme.card(new BorderLayout(0, 8));
+        JPanel card = Theme.card(new BorderLayout(0, 12));
 
-        JPanel top = new JPanel(new BorderLayout(0, 4));
+        JPanel top = new JPanel(new BorderLayout(12, 4));
         top.setOpaque(false);
         top.add(new AvatarPanel(initials(owner.getStudent().getName())),
                 BorderLayout.WEST);
@@ -457,7 +478,7 @@ public class HomePanel extends JPanel {
                 "Level: " + owner.getStudent().getLevelText(), 11);
         levelLabel.setAlignmentX(LEFT_ALIGNMENT);
         middle.add(levelLabel);
-        middle.add(Theme.gap(12));
+        middle.add(Theme.gap(16));
 
         JPanel creditHead = new JPanel(new BorderLayout());
         creditHead.setOpaque(false);
@@ -468,6 +489,25 @@ public class HomePanel extends JPanel {
         middle.add(creditHead);
         middle.add(Theme.gap(6));
 
+        creditBar.setUI(new javax.swing.plaf.basic.BasicProgressBarUI() {
+            @Override
+            protected void paintDeterminate(Graphics g, JComponent c) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                int w = c.getWidth();
+                int h = c.getHeight();
+                g2.setColor(Theme.BLUE_LIGHT);
+                g2.fillRoundRect(0, 0, w, h, h, h);
+                int fill = Math.min(w, Math.max(0,
+                        (int) Math.round(w * creditBar.getPercentComplete())));
+                if (fill > 0) {
+                    g2.setColor(creditBar.getForeground());
+                    g2.fillRoundRect(0, 0, fill, h, h, h);
+                }
+                g2.dispose();
+            }
+        });
         creditBar.setStringPainted(false);
         creditBar.setPreferredSize(new Dimension(120, 10));
         creditBar.setMinimumSize(new Dimension(60, 10));
@@ -476,7 +516,7 @@ public class HomePanel extends JPanel {
         creditBar.setForeground(Theme.BLUE);
         creditBar.setBackground(Theme.BLUE_LIGHT);
         middle.add(creditBar);
-        middle.add(Theme.gap(6));
+        middle.add(Theme.gap(8));
         remainingLabel.setAlignmentX(LEFT_ALIGNMENT);
         middle.add(remainingLabel);
         middle.add(Theme.gap(12));
@@ -501,7 +541,7 @@ public class HomePanel extends JPanel {
                 "Overview of your enrolled courses by category"),
                 BorderLayout.NORTH);
 
-        JPanel body = new JPanel(new FlowLayout(FlowLayout.LEFT, 10, 0));
+        JPanel body = new JPanel(new FlowLayout(FlowLayout.CENTER, 16, 6));
         body.setOpaque(false);
         body.add(donut);
         legendBox.setOpaque(false);
@@ -593,6 +633,7 @@ public class HomePanel extends JPanel {
         // credit load bar
         creditsLabel.setText(total + " / " + CourseManager.MAX_UNITS);
         creditBar.setValue(total);
+        creditBar.setForeground(total >= 20 ? Theme.ORANGE : Theme.BLUE);
         remainingLabel.setText(total + " credits enrolled  \u2022  "
                 + manager.remainingUnits() + " remaining");
 
@@ -659,18 +700,21 @@ public class HomePanel extends JPanel {
     // ------------------------------------------------------------------
 
     static void styleTable(JTable table) {
-        table.setRowHeight(34);
+        table.setRowHeight(38);
         table.setFont(Theme.font(12));
+        table.setShowGrid(false);
+        table.setIntercellSpacing(new Dimension(0, 1));
         table.setGridColor(Theme.BORDER);
-        table.setSelectionBackground(Theme.BLUE_LIGHT);
+        table.setSelectionBackground(new Color(231, 240, 253));
         table.setSelectionForeground(Theme.TEXT);
         table.setBackground(Color.WHITE);
         table.setFillsViewportHeight(true);
+        table.setAutoCreateRowSorter(false);
         table.setPreferredScrollableViewportSize(new Dimension(320, 140));
         table.getTableHeader().setFont(Theme.font(12, Font.BOLD));
-        table.getTableHeader().setBackground(Color.WHITE);
+        table.getTableHeader().setBackground(new Color(240, 245, 251));
         table.getTableHeader().setOpaque(true);
-        table.getTableHeader().setPreferredSize(new Dimension(10, 30));
+        table.getTableHeader().setPreferredSize(new Dimension(10, 36));
         // column widths sized so the five columns always fit
         // inside the enrolments card: headers and pills stay
         // un-clipped and the Drop pill is never cut off

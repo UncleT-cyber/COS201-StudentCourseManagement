@@ -103,7 +103,7 @@ public class LoginFrame extends JFrame {
     private JPanel buildFormSide() {
         JPanel side = new JPanel();
         side.setBackground(Color.WHITE);
-        side.setPreferredSize(new Dimension(470, 100));
+        side.setPreferredSize(new Dimension(460, 100));
         side.setLayout(new GridBagLayout());
 
         GridBagConstraints c = new GridBagConstraints();
@@ -122,7 +122,7 @@ public class LoginFrame extends JFrame {
         logoText.setHorizontalAlignment(SwingConstants.CENTER);
         logo.add(logoText, BorderLayout.CENTER);
         c.anchor = GridBagConstraints.CENTER;
-        c.insets = new Insets(24, 0, 14, 0);
+        c.insets = new Insets(16, 0, 12, 0);
         side.add(logo, c);
 
         c.gridy++;
@@ -132,7 +132,7 @@ public class LoginFrame extends JFrame {
         side.add(title, c);
 
         c.gridy++;
-        c.insets = new Insets(4, 0, 16, 0);
+        c.insets = new Insets(5, 0, 24, 0);
         JLabel subtitle = Theme.label("Student Portal", 14, true,
                 Theme.BLUE);
         subtitle.setHorizontalAlignment(SwingConstants.CENTER);
@@ -140,18 +140,19 @@ public class LoginFrame extends JFrame {
 
         // tab row
         c.gridy++;
-        c.insets = new Insets(0, 30, 0, 30);
-        JPanel tabs = new JPanel(new FlowLayout(FlowLayout.CENTER, 0, 0));
-        tabs.setOpaque(false);
-        loginTab.setPreferredSize(new Dimension(150, 34));
-        registerTab.setPreferredSize(new Dimension(150, 34));
+        c.insets = new Insets(0, 38, 0, 38);
+        JPanel tabs = new Theme.RoundedPanel(12);
+        tabs.setBackground(new Color(242, 246, 252));
+        tabs.setLayout(new FlowLayout(FlowLayout.CENTER, 4, 4));
+        loginTab.setPreferredSize(new Dimension(152, 38));
+        registerTab.setPreferredSize(new Dimension(152, 38));
         tabs.add(loginTab);
         tabs.add(registerTab);
         side.add(tabs, c);
 
         // the two forms
         c.gridy++;
-        c.insets = new Insets(10, 40, 0, 40);
+        c.insets = new Insets(16, 42, 0, 42);
         formBox.setOpaque(false);
         formBox.add(loginForm(), "login");
         formBox.add(registerForm(), "register");
@@ -159,7 +160,7 @@ public class LoginFrame extends JFrame {
 
         // footer
         c.gridy++;
-        c.insets = new Insets(18, 0, 20, 0);
+        c.insets = new Insets(22, 0, 16, 0);
         JLabel footer = Theme.label(
                 "Lab Prototype   \u2022   No password required", 11,
                 false, Theme.MUTED);
@@ -188,14 +189,14 @@ public class LoginFrame extends JFrame {
         form.add(idField, c);
 
         c.gridy++;
-        c.insets = new Insets(8, 0, 12, 0);
+        c.insets = new Insets(10, 0, 18, 0);
         form.add(Theme.mutedLabel(
-                "Enter your student ID to sign in. No password required.",
+                "Use your registered student ID to access the portal.",
                 11), c);
 
         c.gridy++;
         c.insets = new Insets(0, 0, 8, 0);
-        JButton signIn = Theme.primaryButton(" \u21AA  Sign In");
+        JButton signIn = Theme.primaryButton("Sign In to Portal");
         form.add(signIn, c);
 
         c.gridy++;
@@ -221,10 +222,10 @@ public class LoginFrame extends JFrame {
         heading.setOpaque(false);
         JLabel number = Theme.label(" 2 ", 11, true, Color.WHITE);
         number.setOpaque(true);
-        number.setBackground(Theme.TEAL);
+        number.setBackground(Theme.BLUE);
         number.setHorizontalAlignment(SwingConstants.CENTER);
         heading.add(number);
-        heading.add(Theme.label("  Create Account", 13, true, Theme.TEAL));
+        heading.add(Theme.label("  Create Account", 13, true, Theme.BLUE));
         form.add(heading, c);
 
         c.gridy++;
@@ -259,7 +260,7 @@ public class LoginFrame extends JFrame {
 
         c.gridy++;
         c.insets = new Insets(12, 0, 8, 0);
-        JButton create = Theme.tealButton("Create Account");
+        JButton create = Theme.primaryButton("Create Account");
         form.add(create, c);
 
         c.gridy++;
@@ -271,10 +272,27 @@ public class LoginFrame extends JFrame {
     }
 
     private JButton tabButton(String text) {
-        JButton button = new JButton(text);
+        JButton button = new JButton(text) {
+            @Override
+            protected void paintComponent(Graphics g) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
+                        RenderingHints.VALUE_ANTIALIAS_ON);
+                boolean active = Boolean.TRUE.equals(
+                        getClientProperty("activeTab"));
+                if (active || getModel().isRollover()) {
+                    g2.setColor(active ? Color.WHITE
+                            : new Color(232, 239, 249));
+                    g2.fillRoundRect(0, 0, getWidth(), getHeight(), 9, 9);
+                }
+                g2.dispose();
+                super.paintComponent(g);
+            }
+        };
         button.setOpaque(false);
         button.setContentAreaFilled(false);
         button.setBorderPainted(false);
+        button.setFocusPainted(false);
         button.setFont(Theme.font(13, Font.BOLD));
         button.setCursor(new java.awt.Cursor(
                 java.awt.Cursor.HAND_CURSOR));
@@ -283,8 +301,7 @@ public class LoginFrame extends JFrame {
         return button;
     }
 
-    /** Switches between the Login and Register tabs and
-     *  marks the active one with a blue underline. */
+    /** Switches between Login and Register with a segmented active state. */
     private void showTab(String key) {
         formCards.show(formBox, key);
         boolean loginActive = "login".equals(key);
@@ -295,14 +312,9 @@ public class LoginFrame extends JFrame {
     }
 
     private void styleTab(JButton button, boolean active) {
-        if (active) {
-            button.setForeground(Theme.BLUE);
-            button.setBorder(BorderFactory.createMatteBorder(0, 0, 3, 0,
-                    Theme.BLUE));
-        } else {
-            button.setForeground(Theme.MUTED);
-            button.setBorder(BorderFactory.createEmptyBorder(0, 0, 3, 0));
-        }
+        button.putClientProperty("activeTab", active);
+        button.setForeground(active ? Theme.BLUE : Theme.MUTED);
+        button.repaint();
     }
 
     // ------------------------------------------------------------------
