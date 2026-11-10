@@ -8,14 +8,25 @@ the catalogue, tracks credit units and saves or loads the course list from
 a text file. The seeded 200 Level course list adapts to whichever level a
 student registers with (COS 201 becomes COS 301 for a 300 Level student).
 
-## Screenshot
+## Screenshots
 
-![Student Course Management System dashboard](screenshots/program_running.png)
+![Student Course Management System dashboard with the enrolled courses table, a 22 of 24 credit load, the analytics donut chart and the live activity log](screenshots/program_running.png)
 
-![Login screen](screenshots/login_screen.png)
+*The dashboard: enrolled courses, the credit load, analytics and the activity log on one screen.*
 
-The program running, signed in to the Student Course Management System
-dashboard.
+![Enrollment screen with "COS 201" in the search box and the result "Found: COS 201 - Computer Programming I (3 units)" shown in green](screenshots/enrollment_search.png)
+
+*Searching the catalogue by course code and getting the result on screen.*
+
+![Enrollment screen with "COS 20" typed in the course code field and the inline message "Invalid code format (example: COS 201)" in red](screenshots/enrollment_invalid.png)
+
+*Real-time validation: an incomplete code is rejected with an inline message before anything is saved.*
+
+<p align="center">
+  <img src="screenshots/login_screen.png" alt="Sign-in screen with a student ID field, a login and register toggle, and a Sign In to Portal button" width="620">
+</p>
+
+*The sign-in screen.*
 
 ## Install (no Java needed)
 
