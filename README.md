@@ -12,6 +12,8 @@ student registers with (COS 201 becomes COS 301 for a 300 Level student).
 
 ![Student Course Management System dashboard](screenshots/program_running.png)
 
+![Login screen](screenshots/login_screen.png)
+
 The program running, signed in to the Student Course Management System
 dashboard.
 

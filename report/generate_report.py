@@ -17,8 +17,8 @@ repository); only the recursion excerpt is printed in the report because
 Usage:  python3 report/generate_report.py
 Output: COS201_LAB_REPORT_ABAH_ANTHONY_30166082.pdf (project root)
 
-Screenshots: place exactly ONE .png in screenshots/ (program running).
-The first file in alphabetical order is embedded as Figure 1.
+Screenshots: screenshots/program_running.png is embedded as Figure 1.
+The login page shot in the same folder is for the README only.
 """
 
 import base64
@@ -126,8 +126,10 @@ def code_block(rel_path, start, end, caption):
 
 
 def screenshot_block():
-    """Embeds ONE screenshot (first .png in screenshots/) as Figure 1.
-    The guidelines ask for a single screenshot of the program running."""
+    """Embeds ONE screenshot as Figure 1: the dashboard shot
+    (program_running.png). The guidelines ask for a single
+    screenshot of the program running, so the login page shot
+    in the same folder stays out of the report."""
     shot_dir = os.path.join(ROOT, "screenshots")
     files = sorted(f for f in os.listdir(shot_dir)
                    if f.lower().endswith(".png"))
@@ -136,11 +138,9 @@ def screenshot_block():
             '<div class="shot-missing">Place one screenshot of the program '
             'running in <code>screenshots/</code>, then run '
             '<code>python3 report/generate_report.py</code> again.</div>')
-    if len(files) > 1:
-        print("note: %d PNGs in screenshots/ - embedding only the first "
-              "(%s); the guidelines ask for one screenshot"
-              % (len(files), files[0]))
-    with open(os.path.join(shot_dir, files[0]), "rb") as handle:
+    pick = ("program_running.png"
+            if "program_running.png" in files else files[0])
+    with open(os.path.join(shot_dir, pick), "rb") as handle:
         data = base64.b64encode(handle.read()).decode("ascii")
     return (
         '<figure class="shot">'
