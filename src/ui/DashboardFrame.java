@@ -265,7 +265,7 @@ public class DashboardFrame extends JFrame {
         menuButton.addActionListener(e -> toggleSidebar());
         JPanel toggleRow = new JPanel(new BorderLayout());
         toggleRow.setOpaque(false);
-        toggleRow.add(menuButton, BorderLayout.WEST);
+        toggleRow.add(menuButton, BorderLayout.EAST);
         sidebar.add(toggleRow, BorderLayout.NORTH);
 
         // ---- navigation rows ----
