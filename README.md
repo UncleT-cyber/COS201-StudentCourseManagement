@@ -1,87 +1,82 @@
 # Student Course Management System
 
-Mid-semester lab assessment project for **COS 201 - Computer Programming I**,
-MIVA Open University.
+A Java Swing application built for the **COS 201 – Computer Programming I** mid-semester lab assessment at MIVA Open University.
 
-A Java Swing portal where a student signs in, enrols in courses, searches
-the catalogue, tracks credit units and saves or loads the course list from
-a text file. The seeded 200 Level course list adapts to whichever level a
-student registers with (COS 201 becomes COS 301 for a 300 Level student).
+Students can sign in or register, search the course catalogue, enrol in courses, track credit units, and save their course list. The seeded 200 Level courses adapt to the student's level—for example, COS 201 becomes COS 301 for a 300 Level student.
 
 ## Screenshots
 
-![Student Course Management System dashboard with the enrolled courses table, a 22 of 24 credit load, the analytics donut chart and the live activity log](screenshots/program_running.png)
+<table>
+  <tr>
+    <td align="center" width="50%">
+      <img src="screenshots/program_running.png" alt="Dashboard showing enrolled courses, credit load, analytics, and the activity log" width="480">
+      <br><strong>Dashboard</strong><br>Review enrolled courses, credit units, analytics, and recent activity.
+    </td>
+    <td align="center" width="50%">
+      <img src="screenshots/login_screen.png" alt="Sign-in screen with student ID entry and a registration option" width="480">
+      <br><strong>Sign in or register</strong><br>Access the portal with a student account.
+    </td>
+  </tr>
+  <tr>
+    <td align="center" width="50%">
+      <img src="screenshots/enrollment_search.png" alt="Course catalogue search showing a matching result for COS 201" width="480">
+      <br><strong>Search the catalogue</strong><br>Find a course by its code.
+    </td>
+    <td align="center" width="50%">
+      <img src="screenshots/enrollment_invalid.png" alt="Course code validation showing an inline message for an incomplete code" width="480">
+      <br><strong>Immediate validation</strong><br>See an inline message when a course code is incomplete.
+    </td>
+  </tr>
+</table>
 
-*The dashboard: enrolled courses, the credit load, analytics and the activity log on one screen.*
+## Get started
 
-![Enrollment screen with "COS 201" in the search box and the result "Found: COS 201 - Computer Programming I (3 units)" shown in green](screenshots/enrollment_search.png)
+### Install the app (no Java required)
 
-*Searching the catalogue by course code and getting the result on screen.*
+Download the installer for your computer from the [latest release](https://github.com/UncleT-cyber/COS201-StudentCourseManagement/releases/latest). The installer includes the application and its Java runtime.
 
-![Enrollment screen with "COS 20" typed in the course code field and the inline message "Invalid code format (example: COS 201)" in red](screenshots/enrollment_invalid.png)
+- [Windows installer](https://github.com/UncleT-cyber/COS201-StudentCourseManagement/releases/latest/download/StudentCourseManager-1.0-Windows.exe)
+- [macOS disk image](https://github.com/UncleT-cyber/COS201-StudentCourseManagement/releases/latest/download/StudentCourseManager-1.0-macOS.dmg)
+- [Plain Java build (`SCM.jar`)](https://github.com/UncleT-cyber/COS201-StudentCourseManagement/releases/latest/download/SCM.jar) — requires Java 8 or newer.
 
-*Real-time validation: an incomplete code is rejected with an inline message before anything is saved.*
+Sign in with the seeded student ID **30166082**; no password is required. You can also register an account from the Register tab.
 
-<p align="center">
-  <img src="screenshots/login_screen.png" alt="Sign-in screen with a student ID field, a login and register toggle, and a Sign In to Portal button" width="620">
-</p>
+## Build from source
 
-*The sign-in screen.*
-
-## Install (no Java needed)
-
-Download the installer for your computer from the
-[Releases](https://github.com/UncleT-cyber/COS201-StudentCourseManagement/releases/latest)
-page. The program and its own Java runtime are packed inside the installer,
-so nothing else has to be installed.
-
-| Computer | Download | Steps |
-|----------|----------|-------|
-| Windows | [`StudentCourseManager-1.0-Windows.exe`](https://github.com/UncleT-cyber/COS201-StudentCourseManagement/releases/latest/download/StudentCourseManager-1.0-Windows.exe) | Run the installer, then open **Student Course Manager** from the Start Menu or the Desktop |
-| macOS | [`StudentCourseManager-1.0-macOS.dmg`](https://github.com/UncleT-cyber/COS201-StudentCourseManagement/releases/latest/download/StudentCourseManager-1.0-macOS.dmg) | Open the DMG, drag **Student Course Manager** into Applications, then right-click the app and choose **Open** the first time |
-
-Sign in with the seeded student ID **30166082** (no password). The
-[`SCM.jar`](https://github.com/UncleT-cyber/COS201-StudentCourseManagement/releases/latest/download/SCM.jar)
-on the same page is the plain Java build for anyone with Java 8 or newer.
-
-## Requirements (building from source)
+### Requirements
 
 - JDK 8 or newer (tested on JDK 26)
-- No external libraries, no Maven, no Gradle
+- No external libraries, Maven, or Gradle
 
-## Compile
+### Compile
 
-Open a terminal in the project folder and run:
+From the project directory, run:
 
 ```sh
 javac -d out $(find src -name "*.java")
 ```
 
-On Windows (Command Prompt):
+On Windows Command Prompt:
 
 ```cmd
 dir /s /b src\*.java > sources.txt & javac -d out @sources.txt
 ```
 
-## Run
+### Run
 
 ```sh
 java -cp out ui.Main
 ```
 
-Sign in with the seeded student ID **30166082** (no password), or create an
-account from the Register tab.
-
-To open the portal straight away with the seeded account:
+To open the portal with the seeded account:
 
 ```sh
 java -cp out ui.Main --demo
 ```
 
-## Run the self test
+## Run the self-test
 
-Checks the recursive search, the recursive total, the enrolment rules and
-the level adaptor. Every line should print `PASS`.
+The self-test checks recursive search and totals, enrolment rules, and level adaptation. Every line should print `PASS`.
 
 ```sh
 java -cp out test.ManagerSelfTest
@@ -89,27 +84,25 @@ java -cp out test.ManagerSelfTest
 
 ## Data files
 
-Run from the project folder, the program keeps its files next to the source.
-An installed copy keeps the same files in a folder called
-`Student Course Manager` inside your home directory.
+When run from the project directory, the app keeps its data alongside the source. An installed copy stores data in a `Student Course Manager` folder inside your home directory.
 
 | File | Purpose |
 |------|---------|
-| `courses.txt` | Master course catalogue, shipped with the project |
-| `data/enrollments.txt` | Your saved enrolments, written on exit |
+| `courses.txt` | Master course catalogue shipped with the project |
+| `data/enrollments.txt` | Saved enrolments, written on exit |
 | `data/students.txt` | Registered student accounts |
 
-Delete `data/` to start fresh; the program recreates it on the next run.
+Delete `data/` to start fresh; the app recreates it on the next run.
 
 ## Project layout
 
-```
+```text
 src/
-  model/    Course, CourseTemplate, Student, CourseMaterial
-  core/     CourseManager, CourseAdaptor, CourseFileIO, SeedData,
-            ActivityLog, InvalidCourseException
-  ui/       Main, LoginFrame, DashboardFrame and the screen panels
-  test/     ManagerSelfTest
-docs/       Overview, design, recursion notes, challenges
-screenshots/  Screenshots of the running program
+  model/       Course, CourseTemplate, Student, CourseMaterial
+  core/        CourseManager, CourseAdaptor, CourseFileIO, SeedData,
+               ActivityLog, InvalidCourseException
+  ui/          Main, LoginFrame, DashboardFrame, and screen panels
+  test/        ManagerSelfTest
+docs/          Overview, design, recursion notes, challenges
+screenshots/   Screenshots of the running program
 ```
