@@ -258,7 +258,7 @@ public class CourseManager {
         }
         Course current = list.get(index);
         if (Course.normalizeCode(current.getCode())
-                .equals(Course.normalizeCode(targetCode))) {
+                .equalsIgnoreCase(Course.normalizeCode(targetCode))) {
             return current;
         }
         return recursiveSearch(list, index + 1, targetCode);
