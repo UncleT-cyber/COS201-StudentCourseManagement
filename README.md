@@ -17,7 +17,23 @@ student registers with (COS 201 becomes COS 301 for a 300 Level student).
 The program running, signed in to the Student Course Management System
 dashboard.
 
-## Requirements
+## Install (no Java needed)
+
+Download the installer for your computer from the
+[Releases](https://github.com/UncleT-cyber/COS201-StudentCourseManagement/releases/latest)
+page. The program and its own Java runtime are packed inside the installer,
+so nothing else has to be installed.
+
+| Computer | Download | Steps |
+|----------|----------|-------|
+| Windows | `StudentCourseManager-1.0-Windows.exe` | Run the installer, then open **Student Course Manager** from the Start Menu or the Desktop |
+| macOS | `StudentCourseManager-1.0-macOS.dmg` | Open the DMG, drag **Student Course Manager** into Applications, then right-click the app and choose **Open** the first time |
+
+Sign in with the seeded student ID **30166082** (no password). The `.jar`
+further down is the plain Java build, for anyone who wants to compile the
+source themselves.
+
+## Requirements (building from source)
 
 - JDK 8 or newer (tested on JDK 26)
 - No external libraries, no Maven, no Gradle
@@ -61,6 +77,10 @@ java -cp out test.ManagerSelfTest
 ```
 
 ## Data files
+
+Run from the project folder, the program keeps its files next to the source.
+An installed copy keeps the same files in a folder called
+`Student Course Manager` inside your home directory.
 
 | File | Purpose |
 |------|---------|

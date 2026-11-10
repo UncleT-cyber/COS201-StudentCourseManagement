@@ -1,0 +1,77 @@
+name: Windows installer
+
+on:
+  workflow_dispatch:
+    inputs:
+      release:
+        description: Release tag to upload the installer to (leave empty to keep it as a workflow artifact)
+        required: false
+        default: ""
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+
+      - name: Compile and run the self-test
+        shell: bash
+        run: |
+          mkdir -p out
+          javac -Xlint:-options --release 8 -d out $(find src -name "*.java")
+          java -cp out test.ManagerSelfTest
+
+      - name: Build the JAR
+        shell: bash
+        run: |
+          mkdir -p build
+          printf 'Main-Class: ui.Main\n\n' > build/MANIFEST.MF
+          jar cfm SCM.jar build/MANIFEST.MF -C out . -C . assets/login-bg.jpg
+
+      - name: Build the installer
+        shell: bash
+        run: |
+          mkdir -p pkg-input build/installers
+          cp SCM.jar pkg-input/
+          if jpackage --type exe --name "Student Course Manager" \
+              --app-version 1.0 --input pkg-input --main-jar SCM.jar \
+              --main-class ui.Main --win-menu --win-shortcut \
+              --dest build/installers; then
+            cp build/installers/*.exe build/StudentCourseManager-1.0-Windows.exe
+            echo "ASSET=build/StudentCourseManager-1.0-Windows.exe" >> "$GITHUB_ENV"
+          else
+            echo "jpackage exe failed, falling back to a portable folder"
+            jpackage --type app-image --name "Student Course Manager" \
+              --app-version 1.0 --input pkg-input --main-jar SCM.jar \
+              --main-class ui.Main --dest build/installers
+            (cd build/installers && tar -a -c -f ../StudentCourseManager-Windows.zip "Student Course Manager")
+            echo "ASSET=build/StudentCourseManager-Windows.zip" >> "$GITHUB_ENV"
+          fi
+
+      - name: Upload to the release
+        if: github.event_name == 'push' || inputs.release != ''
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          tag="${{ github.event_name == 'push' && github.ref_name || inputs.release }}"
+          gh release upload "$tag" "$ASSET" --clobber
+
+      - name: Keep it as an artifact
+        if: github.event_name == 'workflow_dispatch' && inputs.release == ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-installer
+          path: ${{ env.ASSET }}
+          if-no-files-found: error
