@@ -8,23 +8,19 @@ Students can sign in or register, search the course catalogue, enrol in courses,
 
 <table>
   <tr>
-    <td align="center" width="50%">
-      <img src="screenshots/program_running.png" alt="Dashboard showing enrolled courses, credit load, analytics, and the activity log" width="480">
+    <td align="center" colspan="2">
+      <img src="screenshots/program_running.png" alt="Dashboard showing enrolled courses, credit load, analytics, and the activity log" width="800">
       <br><strong>Dashboard</strong><br>Review enrolled courses, credit units, analytics, and recent activity.
-    </td>
-    <td align="center" width="50%">
-      <img src="screenshots/login_screen.png" alt="Sign-in screen with student ID entry and a registration option" width="480">
-      <br><strong>Sign in or register</strong><br>Access the portal with a student account.
     </td>
   </tr>
   <tr>
     <td align="center" width="50%">
-      <img src="screenshots/enrollment_search.png" alt="Course catalogue search showing a matching result for COS 201" width="480">
-      <br><strong>Search the catalogue</strong><br>Find a course by its code.
+      <img src="screenshots/login_screen.png" alt="Sign-in screen with student ID entry and a registration option" width="380">
+      <br><strong>Sign in or register</strong><br>Access the portal with a student account.
     </td>
     <td align="center" width="50%">
-      <img src="screenshots/enrollment_invalid.png" alt="Course code validation showing an inline message for an incomplete code" width="480">
-      <br><strong>Immediate validation</strong><br>See an inline message when a course code is incomplete.
+      <img src="screenshots/enrollment_search.png" alt="Course catalogue search showing a matching result for COS 201" width="380">
+      <br><strong>Search the catalogue</strong><br>Find a course by its code.
     </td>
   </tr>
 </table>
