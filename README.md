@@ -26,12 +26,12 @@ so nothing else has to be installed.
 
 | Computer | Download | Steps |
 |----------|----------|-------|
-| Windows | `StudentCourseManager-1.0-Windows.exe` | Run the installer, then open **Student Course Manager** from the Start Menu or the Desktop |
-| macOS | `StudentCourseManager-1.0-macOS.dmg` | Open the DMG, drag **Student Course Manager** into Applications, then right-click the app and choose **Open** the first time |
+| Windows | [`StudentCourseManager-1.0-Windows.exe`](https://github.com/UncleT-cyber/COS201-StudentCourseManagement/releases/latest/download/StudentCourseManager-1.0-Windows.exe) | Run the installer, then open **Student Course Manager** from the Start Menu or the Desktop |
+| macOS | [`StudentCourseManager-1.0-macOS.dmg`](https://github.com/UncleT-cyber/COS201-StudentCourseManagement/releases/latest/download/StudentCourseManager-1.0-macOS.dmg) | Open the DMG, drag **Student Course Manager** into Applications, then right-click the app and choose **Open** the first time |
 
-Sign in with the seeded student ID **30166082** (no password). The `.jar`
-further down is the plain Java build, for anyone who wants to compile the
-source themselves.
+Sign in with the seeded student ID **30166082** (no password). The
+[`SCM.jar`](https://github.com/UncleT-cyber/COS201-StudentCourseManagement/releases/latest/download/SCM.jar)
+on the same page is the plain Java build for anyone with Java 8 or newer.
 
 ## Requirements (building from source)
 
