@@ -470,7 +470,7 @@ def pdf_page_count(pdf_path):
 
 
 def stamp_page_numbers(pdf_path):
-    """Print 0, 1, 2 at the foot of the pages (the cover is page 0)."""
+    """Print 1, 2 at the foot of the content pages (cover not numbered)."""
     try:
         from io import BytesIO
         from pypdf import PdfReader, PdfWriter
@@ -481,6 +481,8 @@ def stamp_page_numbers(pdf_path):
     reader = PdfReader(pdf_path)
     writer = PdfWriter(clone_from=reader)
     for index, page in enumerate(writer.pages):
+        if index == 0:
+            continue
         width = float(page.mediabox.width)
         height = float(page.mediabox.height)
         buffer = BytesIO()
