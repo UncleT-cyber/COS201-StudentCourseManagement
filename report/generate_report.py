@@ -422,15 +422,28 @@ total(1) = 2 + 0 = 2      the calls unwind
 total(0) = 3 + 2 = <b>5 units</b></pre></div>
 """)
 
+    # ---------------- 5. how to compile and run ----------------
+    body.append("""
+<h2>5. How to compile and run</h2>
+<p>The program needs no external libraries. From the project folder,
+compile all source files and start the portal:</p>
+<div class="note"><pre class="steps">javac -d out $(find src -name "*.java")
+java -cp out ui.Main</pre></div>
+<p>On Windows Command Prompt the same build is
+<code>dir /s /b src\\*.java &gt; sources.txt</code> followed by
+<code>javac -d out @sources.txt</code>. The self-test runs with
+<code>java -cp out test.ManagerSelfTest</code>. A compiled
+<code>SCM.jar</code> is attached to the repository's Releases page and
+starts with <code>java -jar SCM.jar</code> on any computer with Java 8 or
+newer, and Windows and macOS installers are on the same page.</p>
+""")
+
     # ---------------- footer ----------------
     body.append("""
 <div class="footer-note">
 <p>All source code files are submitted through the repository:
-<a href="%s">%s</a>. The compiled program <code>SCM.jar</code> is
-attached to the repository's <i>Releases</i> page and runs on any
-computer with Java 8 or newer (<code>java -jar SCM.jar</code>).
-The project was built with plain <code>javac</code> and
-<code>java</code>, and its self-test passes <b>25 of 25 checks</b>.</p>
+<a href="%s">%s</a>. The project was built with plain <code>javac</code>
+and <code>java</code>, and its self-test passes <b>25 of 25 checks</b>.</p>
 <p class="signoff">ABAH ANTHONY, 30166082<br>
 Department of Cyber Security, MIVA Open University</p>
 </div>
