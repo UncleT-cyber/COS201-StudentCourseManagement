@@ -14,6 +14,7 @@ package core;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -52,7 +53,9 @@ public class CourseFileIO {
     }
 
     /** Works whether the program is started from the
-     *  project root or from inside a sub folder. */
+     *  project root or from inside a sub folder. An
+     *  installed copy (no project folder around) keeps its
+     *  files in a folder of its own in the home directory. */
     private static Path findBase() {
         Path current = Paths.get("").toAbsolutePath();
         if (Files.exists(current.resolve("src"))
@@ -65,7 +68,8 @@ public class CourseFileIO {
                 || Files.exists(parent.resolve("courses.txt")))) {
             return parent;
         }
-        return current;
+        return Paths.get(System.getProperty("user.home"),
+                "Student Course Manager");
     }
 
     /** Creates the folders and default files the first
@@ -86,6 +90,27 @@ public class CourseFileIO {
         }
         if (!Files.exists(ENROLLMENTS_FILE)) {
             saveEnrollments(SeedData.demoStudent(), new ArrayList<Course>());
+        }
+        copyLoginPicture();
+    }
+
+    /** An installed copy keeps its login picture inside the
+     *  JAR, so the first run drops a copy next to the data
+     *  files where the interface looks for it. */
+    private static void copyLoginPicture() {
+        Path picture = BASE.resolve("assets/login-bg.jpg");
+        if (Files.exists(picture)) {
+            return;
+        }
+        try (InputStream in = CourseFileIO.class
+                .getResourceAsStream("/assets/login-bg.jpg")) {
+            if (in == null) {
+                return;
+            }
+            Files.createDirectories(picture.getParent());
+            Files.copy(in, picture);
+        } catch (IOException e) {
+            System.out.println("Could not copy login picture: " + e);
         }
     }
 
