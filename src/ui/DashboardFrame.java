@@ -71,6 +71,7 @@ public class DashboardFrame extends JFrame {
     private boolean sidebarExpanded = true;
     private JPanel sidebar;
     private JLabel institutionLabel;
+    private Theme.NavButton githubButton;
     private Theme.NavButton logoutButton;
     private Theme.NavButton menuButton;
 
@@ -299,6 +300,15 @@ public class DashboardFrame extends JFrame {
         institutionLabel.setAlignmentX(LEFT_ALIGNMENT);
         bottom.add(institutionLabel);
         bottom.add(Theme.gap(8));
+        githubButton = new Theme.NavButton("GitHub",
+                Theme.NavKind.GITHUB);
+        githubButton.setAlignmentX(LEFT_ALIGNMENT);
+        githubButton.setCollapsed(false);
+        githubButton.setToolTipText(
+                "View the source code on GitHub");
+        githubButton.addActionListener(e -> Theme.openRepo());
+        bottom.add(githubButton);
+        bottom.add(Theme.gap(4));
         logoutButton = new Theme.NavButton("Logout",
                 Theme.NavKind.LOGOUT);
         logoutButton.setNormalColour(Theme.RED);
@@ -330,6 +340,7 @@ public class DashboardFrame extends JFrame {
             button.setCollapsed(!sidebarExpanded);
         }
         logoutButton.setCollapsed(!sidebarExpanded);
+        githubButton.setCollapsed(!sidebarExpanded);
         institutionLabel.setVisible(sidebarExpanded);
         revalidate();
         repaint();

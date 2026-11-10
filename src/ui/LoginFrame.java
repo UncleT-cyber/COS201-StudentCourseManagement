@@ -161,11 +161,14 @@ public class LoginFrame extends JFrame {
         // footer
         c.gridy++;
         c.insets = new Insets(22, 0, 16, 0);
-        JLabel footer = Theme.label(
+        JPanel footRow = new JPanel(new FlowLayout(
+                FlowLayout.CENTER, 8, 0));
+        footRow.setOpaque(false);
+        footRow.add(Theme.githubLink(16));
+        footRow.add(Theme.label(
                 "Lab Prototype   \u2022   No password required", 11,
-                false, Theme.MUTED);
-        footer.setHorizontalAlignment(SwingConstants.CENTER);
-        side.add(footer, c);
+                false, Theme.MUTED));
+        side.add(footRow, c);
 
         showTab("login");
         return side;

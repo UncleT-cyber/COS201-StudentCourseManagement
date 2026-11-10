@@ -83,6 +83,10 @@ public class Theme {
         new Color(107, 114, 128)
     };
 
+    /** Where this project's source code is published. */
+    public static final String REPO_URL =
+            "https://github.com/UncleT-cyber/COS201-StudentCourseManagement";
+
     private Theme() {
     }
 
@@ -211,6 +215,54 @@ public class Theme {
                 new EmptyBorder(10, 12, 10, 12)));
         field.setText("");
         field.putClientProperty("placeholder", placeholder);
+    }
+
+    /** Opens the project repository in the default browser. */
+    public static void openRepo() {
+        try {
+            java.awt.Desktop.getDesktop().browse(
+                    new java.net.URI(REPO_URL));
+        } catch (Exception e) {
+            // no browser available, leave it alone
+        }
+    }
+
+    /** Clickable GitHub mark that opens the repository
+     *  when pressed. */
+    public static JLabel githubLink(int size) {
+        JLabel link = new JLabel(new Icon() {
+            @Override
+            public void paintIcon(Component c, Graphics g,
+                                  int x, int y) {
+                Graphics2D g2 = (Graphics2D) g.create();
+                g2.translate(x, y);
+                g2.setColor(c.getForeground());
+                g2.scale(size / 16.0, size / 16.0);
+                g2.fill(GITHUB_MARK);
+                g2.dispose();
+            }
+
+            @Override
+            public int getIconWidth() {
+                return size;
+            }
+
+            @Override
+            public int getIconHeight() {
+                return size;
+            }
+        });
+        link.setForeground(TEXT);
+        link.setCursor(java.awt.Cursor.getPredefinedCursor(
+                java.awt.Cursor.HAND_CURSOR));
+        link.setToolTipText("View the source code on GitHub");
+        link.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                openRepo();
+            }
+        });
+        return link;
     }
 
     /** Blue call to action button. */
@@ -384,7 +436,46 @@ public class Theme {
     /** Which picture a navigation button shows. */
     public enum NavKind {
         HOME, ENROLLMENT, COURSES, MATERIALS, ANALYTICS, SETTINGS,
-        LOGOUT, COLLAPSE, EXPAND
+        LOGOUT, COLLAPSE, EXPAND, GITHUB
+    }
+
+    /** Outline of the GitHub mark, drawn in code so the
+     *  program needs no image files for it. Sized for a
+     *  16 x 16 box. */
+    private static final java.awt.geom.Path2D GITHUB_MARK =
+            buildGithubMark();
+
+    private static java.awt.geom.Path2D buildGithubMark() {
+        java.awt.geom.Path2D.Double p =
+                new java.awt.geom.Path2D.Double();
+        p.moveTo(8, 0);
+        p.curveTo(3.58, 0, 0, 3.58, 0, 8);
+        p.curveTo(0, 11.53, 2.29, 14.53, 5.47, 15.59);
+        p.curveTo(5.87, 15.67, 6, 15.42, 6, 15.21);
+        p.lineTo(6, 13.72);
+        p.curveTo(3.77, 14.2, 3.31, 12.77, 3.31, 12.77);
+        p.curveTo(2.95, 11.85, 2.42, 11.6, 2.42, 11.6);
+        p.curveTo(1.7, 11.11, 2.48, 11.12, 2.48, 11.12);
+        p.curveTo(3.28, 11.17, 3.7, 11.94, 3.7, 11.94);
+        p.curveTo(4.42, 13.16, 5.58, 12.81, 6.03, 12.61);
+        p.curveTo(6.1, 12.09, 6.31, 11.74, 6.54, 11.54);
+        p.curveTo(4.76, 11.33, 2.9, 10.65, 2.9, 7.58);
+        p.curveTo(2.9, 6.71, 3.21, 6, 3.72, 5.44);
+        p.curveTo(3.64, 5.23, 3.36, 4.42, 3.8, 3.32);
+        p.curveTo(3.8, 3.32, 4.47, 3.1, 6, 4.14);
+        p.curveTo(6.64, 3.96, 7.32, 3.87, 8, 3.87);
+        p.curveTo(8.68, 3.87, 9.36, 3.96, 10, 4.14);
+        p.curveTo(11.53, 3.1, 12.2, 3.32, 12.2, 3.32);
+        p.curveTo(12.64, 4.42, 12.36, 5.23, 12.28, 5.44);
+        p.curveTo(12.79, 6, 13.1, 6.71, 13.1, 7.58);
+        p.curveTo(13.1, 10.66, 11.23, 11.33, 9.45, 11.53);
+        p.curveTo(9.74, 11.78, 10, 12.26, 10, 13.01);
+        p.lineTo(10, 15.21);
+        p.curveTo(10, 15.42, 10.13, 15.67, 10.53, 15.59);
+        p.curveTo(13.71, 14.53, 16, 11.53, 16, 8);
+        p.curveTo(16, 3.58, 12.42, 0, 8, 0);
+        p.closePath();
+        return p;
     }
 
     /** Small line icon painted in code so nothing extra
@@ -477,6 +568,9 @@ public class Theme {
                     g2.drawLine(7, 2, 7, 14);
                     g2.drawLine(10, 6, 12, 8);
                     g2.drawLine(12, 8, 10, 10);
+                    break;
+                case GITHUB:
+                    g2.fill(GITHUB_MARK);
                     break;
                 case LOGOUT:
                 default:
