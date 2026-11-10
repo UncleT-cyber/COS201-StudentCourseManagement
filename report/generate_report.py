@@ -160,14 +160,16 @@ body { font-family: Georgia, 'Times New Roman', serif; font-size: 9.4pt;
 /* no position:fixed elements - they repeat on every A4 page and
    overlap content. Identity lives in the masthead instead. */
 h1, h2, h3 { font-family: Helvetica, Arial, sans-serif; }
-h2 { font-size: 10.5pt; margin: 9px 0 4px; padding-bottom: 2px;
+h2 { font-size: 10.5pt; margin: 7px 0 3px; padding-bottom: 2px;
      border-bottom: 1pt solid #2456a6; color: #2456a6;
      page-break-after: avoid; break-after: avoid; }
-p { margin: 4px 0; text-align: justify; }
+h2.newpage { page-break-before: always; break-before: page;
+     margin-top: 0; }
+p { margin: 3px 0; text-align: justify; }
 li { page-break-inside: avoid; break-inside: avoid; }
 a { color: #2456a6; text-decoration: none; word-break: break-all; }
 ul { margin: 5px 0 5px 18px; padding: 0; }
-li { margin: 3px 0; text-align: justify; }
+li { margin: 2px 0; text-align: justify; }
 
 /* ---- cover (page 0, not counted in the 1-2 page limit) ---- */
 .cover { text-align: center; padding-top: 48px; page-break-after: always; }
@@ -208,12 +210,12 @@ li { margin: 3px 0; text-align: justify; }
 .meta td.v { font-weight: bold; padding-right: 18px; }
 
 /* ---- feature table ---- */
-table.feat { width: 100%; border-collapse: collapse; margin: 5px 0;
-     font-size: 8.3pt; }
+table.feat { width: 100%; border-collapse: collapse; margin: 4px 0;
+     font-size: 8.1pt; }
 table.feat th { background: #2456a6; color: #fff; font-family:
      Helvetica, Arial, sans-serif; font-size: 7.9pt; text-align: left;
      padding: 3px 5px; }
-table.feat td { border-bottom: 0.5pt solid #ddd; padding: 2.5px 5px;
+table.feat td { border-bottom: 0.5pt solid #ddd; padding: 2px 5px;
      vertical-align: top; }
 table.feat tr:nth-child(even) td { background: #f4f7fc; }
 table.feat td.f { font-weight: bold; white-space: nowrap; }
@@ -228,7 +230,7 @@ figure.code figcaption code { background: #eef2f8; padding: 1px 4px;
 figure.code pre { background: #f7f8fa; border: 0.6pt solid #d8dde6;
      border-left: 2.5pt solid #2456a6; border-radius: 4px;
      font-family: Menlo, Consolas, monospace; font-size: 7.2pt;
-     line-height: 1.32; padding: 6px 8px; overflow: hidden;
+     line-height: 1.28; padding: 5px 7px; overflow: hidden;
      white-space: pre-wrap; word-wrap: break-word; margin: 0; }
 .ln { display: inline-block; width: 24px; color: #9aa3b0;
      user-select: none; }
@@ -236,9 +238,9 @@ figure.code pre { background: #f7f8fa; border: 0.6pt solid #d8dde6;
 .cmt { color: #5a8f5a; font-style: italic; }
 
 /* ---- screenshot ---- */
-figure.shot { margin: 7px 0; text-align: center; page-break-inside:
+figure.shot { margin: 10px 0 6px; text-align: center; page-break-inside:
      avoid; }
-figure.shot img { max-width: 100%; max-height: 80mm; border: 0.6pt
+figure.shot img { width: 100%; max-height: none; border: 0.6pt
      solid #ccc; border-radius: 3px; }
 figure.shot figcaption { font-family: Helvetica, Arial, sans-serif;
      font-size: 7.8pt; color: #555; margin-top:3px; }
@@ -247,7 +249,7 @@ figure.shot figcaption { font-family: Helvetica, Arial, sans-serif;
      Helvetica, Arial, sans-serif; text-align: center; }
 
 .note { background: #f4f7fc; border-left: 2.5pt solid #2456a6;
-     padding: 5px 9px; margin: 6px 0; font-size: 8.8pt; }
+     padding: 4px 8px; margin: 5px 0; font-size: 8.8pt; }
 .note .steps { font-size: 8.3pt; line-height: 1.5; margin: 5px 0 0; }
 .footer-note { font-size: 8pt; color: #666; margin-top: 12px;
      border-top: 0.5pt solid #ccc; padding-top: 10px;
@@ -331,17 +333,36 @@ enrolled courses in one table, searches by course code, and watches the
 total credit units build up against the 24-unit limit. The course list is
 saved to a plain text file (<code>courses.txt</code>) and loaded back the
 next time the program starts, so nothing is lost between sessions. The
-program is written in Java using only the standard library (Swing), so it
+dashboard in Figure 1 shows the enrolment form, the enrolled courses, the
+credit load and the activity log on one screen. The program is written in
+Java using only the standard library (Swing), so it
 compiles with plain <code>javac</code> and needs no external libraries.
 The code is organised into four packages, so each part has one job:
 <code>model</code> holds the data, <code>core</code> holds the rules,
 recursion and file handling, <code>ui</code> is the interface, and
 <code>test</code> is the self-test.</p>
 """)
+    body.append(screenshot_block())
 
-    # ---------------- 2. how each major feature works ----------------
+    # ---------------- 2. how to compile and run ----------------
     body.append("""
-<h2>2. How each major feature works</h2>
+<h2>2. How to compile and run</h2>
+<p>The program needs no external libraries. From the project folder,
+compile all source files and start the portal:</p>
+<div class="note"><pre class="steps">javac -d out $(find src -name "*.java")
+java -cp out ui.Main</pre></div>
+<p>On Windows Command Prompt the same build is
+<code>dir /s /b src\\*.java &gt; sources.txt</code> followed by
+<code>javac -d out @sources.txt</code>. The self-test runs with
+<code>java -cp out test.ManagerSelfTest</code>. A compiled
+<code>SCM.jar</code> is attached to the repository's Releases page and
+starts with <code>java -jar SCM.jar</code> on any computer with Java 8 or
+newer, and Windows and macOS installers are on the same page.</p>
+""")
+
+    # ---------------- 3. how each major feature works ----------------
+    body.append("""
+<h2 class="newpage">3. How each major feature works</h2>
 <table class="feat">
 <tr><th style="width:20%">Feature</th><th>How it works</th></tr>
 <tr><td class="f">1. Add a course</td>
@@ -360,7 +381,7 @@ recursion and file handling, <code>ui</code> is the interface, and
     text is trimmed, upper-cased and stripped of spaces
     (<code>Course.normalizeCode()</code>), so <code>cos 201</code> and
     <code>COS 201</code> find the same course; the comparison itself is
-    the recursive search in section 4.</td></tr>
+    the recursive search in section 5.</td></tr>
 <tr><td class="f">4. Compute total units</td>
     <td><code>totalUnits()</code> runs the recursive total over the
     enrolment list and drives the credit progress bar (e.g. 13 of 24
@@ -381,11 +402,10 @@ recursion and file handling, <code>ui</code> is the interface, and
     date.</td></tr>
 </table>
 """)
-    body.append(screenshot_block())
 
     # ---------------- 3. challenges / error handling ----------------
     body.append("""
-<h2>3. Challenges encountered and how errors were handled</h2>
+<h2>4. Challenges encountered and how errors were handled</h2>
 <ul>
 <li><b>Invalid student input.</b> Every field can be typed wrongly, so
 validation runs before anything touches the data. A non-numeric credit
@@ -412,7 +432,7 @@ number in each code (SIWES courses are pinned and never shifted).</li>
 
     # ---------------- 4. where recursion was applied ----------------
     body.append("""
-<h2>4. Where recursion was applied</h2>
+<h2>5. Where recursion was applied</h2>
 <p>Recursion is applied in two required places, both in
 <code>core/CourseManager.java</code>. <b>recursiveSearch</b> finds a
 course code: the <i>base case</i> is the index running past the end of
@@ -433,22 +453,6 @@ total(2) = 0              base case, the index is past the end
 
 total(1) = 2 + 0 = 2      the calls unwind
 total(0) = 3 + 2 = <b>5 units</b></pre></div>
-""")
-
-    # ---------------- 5. how to compile and run ----------------
-    body.append("""
-<h2>5. How to compile and run</h2>
-<p>The program needs no external libraries. From the project folder,
-compile all source files and start the portal:</p>
-<div class="note"><pre class="steps">javac -d out $(find src -name "*.java")
-java -cp out ui.Main</pre></div>
-<p>On Windows Command Prompt the same build is
-<code>dir /s /b src\\*.java &gt; sources.txt</code> followed by
-<code>javac -d out @sources.txt</code>. The self-test runs with
-<code>java -cp out test.ManagerSelfTest</code>. A compiled
-<code>SCM.jar</code> is attached to the repository's Releases page and
-starts with <code>java -jar SCM.jar</code> on any computer with Java 8 or
-newer, and Windows and macOS installers are on the same page.</p>
 """)
 
     # ---------------- footer ----------------
