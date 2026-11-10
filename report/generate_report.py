@@ -469,6 +469,33 @@ def pdf_page_count(pdf_path):
         return None
 
 
+def stamp_page_numbers(pdf_path):
+    """Print 0, 1, 2 at the foot of the pages (the cover is page 0)."""
+    try:
+        from io import BytesIO
+        from pypdf import PdfReader, PdfWriter
+        from reportlab.pdfgen import canvas
+    except ImportError:
+        print("note: pypdf and reportlab are needed to number the pages")
+        return False
+    reader = PdfReader(pdf_path)
+    writer = PdfWriter(clone_from=reader)
+    for index, page in enumerate(writer.pages):
+        width = float(page.mediabox.width)
+        height = float(page.mediabox.height)
+        buffer = BytesIO()
+        sheet = canvas.Canvas(buffer, pagesize=(width, height))
+        sheet.setFont("Helvetica", 8)
+        sheet.setFillColorRGB(0.45, 0.45, 0.45)
+        sheet.drawCentredString(width / 2.0, 9 * 72 / 25.4, str(index))
+        sheet.save()
+        buffer.seek(0)
+        page.merge_page(PdfReader(buffer).pages[0])
+    with open(pdf_path, "wb") as handle:
+        writer.write(handle)
+    return True
+
+
 def main():
     html_path = os.path.join(ROOT, "report", "report.html")
     with open(html_path, "w", encoding="utf-8") as handle:
@@ -495,6 +522,7 @@ def main():
         print("WARNING: content is %d pages; the guidelines allow pages "
               "1-2 (cover excluded)." % content_pages)
         sys.exit(1)
+    stamp_page_numbers(pdf_path)
 
 
 if __name__ == "__main__":
