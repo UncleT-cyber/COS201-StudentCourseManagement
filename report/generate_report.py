@@ -276,7 +276,20 @@ def build_html():
     <tr><td class="k">Matric Number</td><td class="v">30166082</td></tr>
     <tr><td class="k">Level</td><td class="v">200 LEVEL</td></tr>
     <tr><td class="k">Department</td><td class="v">CYBER SECURITY</td></tr>
-    <tr><td class="k">Course</td><td class="v">COS 201 (Semester 1)</td></tr>    <tr><td class="k">Source Code</td>
+    <tr><td class="k">Course</td><td class="v">COS 201 (Semester 1)</td></tr>
+    <tr><td class="k">Windows</td>
+        <td class="v" style="font-size:9pt;">
+          <a href="https://github.com/UncleT-cyber/COS201-StudentCourseManagement/releases/latest/download/StudentCourseManager-1.0-Windows.exe"
+             style="color:#2456a6; text-decoration:underline;">
+            StudentCourseManager-1.0-Windows.exe
+          </a></td></tr>
+    <tr><td class="k">macOS</td>
+        <td class="v" style="font-size:9pt;">
+          <a href="https://github.com/UncleT-cyber/COS201-StudentCourseManagement/releases/latest/download/StudentCourseManager-1.0-macOS.dmg"
+             style="color:#2456a6; text-decoration:underline;">
+            StudentCourseManager-1.0-macOS.dmg
+          </a></td></tr>
+    <tr><td class="k">Source Code</td>
         <td class="v" style="font-size:9pt;">
           <a href="https://github.com/UncleT-cyber/COS201-StudentCourseManagement"
              style="color:#2456a6; text-decoration:underline;">
