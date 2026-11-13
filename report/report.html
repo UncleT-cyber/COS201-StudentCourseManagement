@@ -166,7 +166,7 @@ student manage the courses carried in a semester. After signing in with a
 matric number, the student enrols in courses from the catalogue, sees all
 enrolled courses in one table, searches by course code, and watches the
 total credit units build up against the 24-unit limit. The course list is
-saved to a plain text file (<code>courses.txt</code>) and loaded back the
+saved to a plain text file (<code>data/enrollments.txt</code>) and loaded back the
 next time the program starts, so nothing is lost between sessions. The
 dashboard in Figure 1 shows the enrolment form, the enrolled courses, the
 credit load and the activity log on one screen. The program is written in
@@ -219,7 +219,7 @@ newer, and Windows and macOS installers are on the same page.</p>
     units, 54%). It is recalculated after every enrolment and drop.</td></tr>
 <tr><td class="f">5. Save to file</td>
     <td><code>CourseFileIO.saveEnrollments()</code> writes one course per
-    line to <code>courses.txt</code> with <code>|</code> between fields,
+    line to <code>data/enrollments.txt</code> with <code>|</code> between fields,
     using a <code>BufferedWriter</code> in try-with-resources so the file
     is always closed. Saving also happens automatically on exit.</td></tr>
 <tr><td class="f">6. Load from file</td>
